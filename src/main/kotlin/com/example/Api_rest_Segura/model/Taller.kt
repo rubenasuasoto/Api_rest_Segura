@@ -15,9 +15,8 @@ data class Taller(
     @Column(nullable = false)
     val direccion: String? = null,
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 9)
     val telefono: String? = null,
 
-    @Column
-    val especialidades: String? = null
+
 )
