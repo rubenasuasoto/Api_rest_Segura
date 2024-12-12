@@ -1,28 +1,24 @@
 ﻿package com.example.Api_rest_Segura.model
 import jakarta.persistence.*
 
-// Tabla Usuarios
+
 @Entity
-@Table(name = "Usuarios")
+@Table(name = "usuarios")
 data class Usuario(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val idUsuario: Long = 0,
+    val idUsuario: Long? = null,
 
     @Column(nullable = false)
-    val nombre: String,
+    val nombre: String? = null,
 
     @Column(nullable = false, unique = true)
-    val email: String,
+    val email: String? = null,
 
     @Column(nullable = false)
-    val password: String,
+    val password: String? = null,
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    val rol: RolUsuario
+
+    val rol: String? = null // e.g., "ROLE_CLIENTE,ROLE_MECANICO
 )
 
-enum class RolUsuario {
-    CLIENTE, MECANICO
-}

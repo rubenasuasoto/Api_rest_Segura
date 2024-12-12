@@ -3,20 +3,20 @@
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "Talleres")
+@Table(name = "talleres")
 data class Taller(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val idTaller: Long = 0,
+    val idTaller: Long? = null,
 
     @Column(nullable = false)
-    val nombreTaller: String,
+    val nombreTaller: String? = null,
 
     @Column(nullable = false)
-    val direccion: String,
+    val direccion: String? = null,
 
     @Column(nullable = false)
-    val telefono: String,
+    val telefono: String? = null,
 
     @Column
     val especialidades: String? = null

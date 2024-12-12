@@ -5,10 +5,10 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "Citas_Taller")
-data class CitaTaller(
+data class Cita_Taller(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val idCita: Long = 0,
+    val idCita: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = false)
@@ -22,7 +22,7 @@ data class CitaTaller(
     val fecha: LocalDateTime,
 
     @Column(nullable = false)
-    val servicio: String,
+    val servicio: String? = null,
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
