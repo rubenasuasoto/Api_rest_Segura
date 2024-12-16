@@ -3,8 +3,10 @@
 
 
 import com.example.Api_rest_Segura.model.Usuario
+import com.example.Api_rest_Segura.security.SecurityConfig
 import com.example.Api_rest_Segura.service.TokenService
 import com.example.Api_rest_Segura.service.UsuarioService
+import com.example.Api_rest_Segura.util.CipherUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -12,10 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/usuarios")
@@ -27,6 +26,10 @@ class UsuarioController {
     private lateinit var authenticationManager: AuthenticationManager
     @Autowired
     private lateinit var  tokenService: TokenService
+    @Autowired
+    private lateinit var  securityConfig: SecurityConfig
+    @Autowired
+    private lateinit var  cipherUtils: CipherUtils
 
     /*
     MÉTODO PARA INSERTAR UN USUARIO
@@ -36,15 +39,22 @@ class UsuarioController {
         @RequestBody newUsuario: Usuario
     ) : ResponseEntity<Usuario?>? {
 
-        // Comprobación mínima
-        // -> La obviamos por ahora
+        try {
+            // Generar un token JWT que se utilizará como clave de cifrado
+            val token = securityConfig.jwtEncoder()
 
-        // Llamar al UsuarioService para insertar un usuario
 
+            // Cifrar la contraseña con el token como clave
+            val cifrada = cipherUtils.encrypt(newUsuario.password,token.toString())
+            newUsuario.password = cifrada
 
-        // Devolver el usuario insertado
-        return ResponseEntity(null, HttpStatus.CREATED) // Cambiar null por el usuario insertado
+            // Llamar al servicio para insertar el usuario
+            val usuarioInsertado = usuarioService.registerUsuario(newUsuario)
 
+            return ResponseEntity(usuarioInsertado, HttpStatus.CREATED)
+        } catch (e: Exception) {
+            return ResponseEntity(null, HttpStatus.BAD_REQUEST)
+        }
     }
     /*
     Metodo (EndPoint) para hacer un login
@@ -55,16 +65,53 @@ class UsuarioController {
         var authentication: Authentication
         try {
 
-            authentication = authenticationManager.authenticate(UsernamePasswordAuthenticationToken(usuario.nombre, usuario.password))
+            authentication = authenticationManager.authenticate(UsernamePasswordAuthenticationToken(usuario.username, usuario.password))
         } catch (e:AuthenticationException){
             return ResponseEntity(mapOf("mensaje" to "Credenciales incorrectas dude"), HttpStatus.UNAUTHORIZED)
         }
 
-        // SI PASAMOS LA AUTENTICACIÓN , SIGNIFICA QUE ESTAMOS BIEN AUTENTICADOS
-        // PASAMOS A GENERAR TOKEN
+
         var token = ""
         token = tokenService.generarToken(authentication)
 
         return ResponseEntity(mapOf("token" to token), HttpStatus.CREATED)
+    }
+    /**
+     * Endpoint para obtener todos los usuarios
+     */
+    @GetMapping
+    fun getAllUsuarios(): ResponseEntity<List<Usuario>> {
+        val usuarios = usuarioService.getAllUsuarios()
+        return ResponseEntity.ok(usuarios)
+    }
+
+    /**
+     * Endpoint para obtener un usuario por ID
+     */
+    @GetMapping("/{id}")
+    fun getUsuarioById(@PathVariable id: Long): ResponseEntity<Usuario> {
+        val usuario = usuarioService.getUsuarioById(id)
+        return ResponseEntity.ok(usuario)
+    }
+
+    /**
+     * Endpoint para actualizar un usuario por ID
+     */
+    @PutMapping("/{id}")
+    fun updateUsuario(
+        @PathVariable id: Long,
+        @RequestBody usuarioActualizado: Usuario
+    ): ResponseEntity<Usuario> {
+        val usuario = usuarioService.updateUsuario(id, usuarioActualizado)
+        return ResponseEntity.ok(usuario)
+    }
+
+    /**
+     * Endpoint para eliminar un usuario por ID
+     */
+    @DeleteMapping("/{id}")
+    fun deleteUsuario(@PathVariable id: Long): ResponseEntity<Void> {
+        usuarioService.deleteUsuario(id)
+        return ResponseEntity.noContent().build()
     }
 }
