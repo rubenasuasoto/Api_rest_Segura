@@ -79,7 +79,7 @@ class UsuarioController {
     /**
      * Endpoint para obtener todos los usuarios
      */
-    @GetMapping
+    @GetMapping("/all")
     fun getAllUsuarios(): ResponseEntity<List<Usuario>> {
         val usuarios = usuarioService.getAllUsuarios()
         return ResponseEntity.ok(usuarios)
@@ -97,7 +97,7 @@ class UsuarioController {
     /**
      * Endpoint para actualizar un usuario por ID
      */
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     fun updateUsuario(
         @PathVariable id: Long,
         @RequestBody usuarioActualizado: Usuario
@@ -109,7 +109,7 @@ class UsuarioController {
     /**
      * Endpoint para eliminar un usuario por ID
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     fun deleteUsuario(@PathVariable id: Long): ResponseEntity<Void> {
         usuarioService.deleteUsuario(id)
         return ResponseEntity.noContent().build()

@@ -38,9 +38,20 @@ class SecurityConfig {
             .authorizeHttpRequests{auth ->auth
                 .requestMatchers("/usuarios/register").permitAll()
                 .requestMatchers("/usuarios/login").permitAll()
-                .requestMatchers(HttpMethod.GET,"/rutas_protegidas/recurso/{id}").permitAll()
-                .requestMatchers(HttpMethod.DELETE,"/rutas_protegidas/eliminar/{nombre}").authenticated()
-                .requestMatchers("/rutas_protegidas/usuario_autenticado").permitAll()
+                .requestMatchers(HttpMethod.GET,"/usuarios/all").authenticated()
+                .requestMatchers(HttpMethod.GET,"/usuarios/{id}").authenticated()
+                .requestMatchers(HttpMethod.PUT,"/usuarios/update/{id}").authenticated()
+                .requestMatchers(HttpMethod.DELETE,"/usuarios/delete/{id}").authenticated()
+                .requestMatchers("/citas/register").authenticated()
+                .requestMatchers(HttpMethod.GET,"/citas/all").authenticated()
+                .requestMatchers(HttpMethod.GET,"/citas/{id}").authenticated()
+                .requestMatchers(HttpMethod.PUT,"/citas/update/{id}").authenticated()
+                .requestMatchers(HttpMethod.DELETE,"/citas/delete/{id}").authenticated()
+                .requestMatchers("/talleres/register").authenticated()
+                .requestMatchers(HttpMethod.GET,"/talleres/all").authenticated()
+                .requestMatchers(HttpMethod.GET,"/talleres/{id}").authenticated()
+                .requestMatchers(HttpMethod.PUT,"/talleres/update/{id}").authenticated()
+                .requestMatchers(HttpMethod.DELETE,"/talleres/delete/{id}").authenticated()
                 .anyRequest().authenticated()}
             //Los recursos protegidos y publicos
             .oauth2ResourceServer { oauth2 -> oauth2.jwt(Customizer.withDefaults()) }

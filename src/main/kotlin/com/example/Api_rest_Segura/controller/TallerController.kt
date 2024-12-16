@@ -16,7 +16,7 @@ class TallerController {
     /**
      * Endpoint para registrar un nuevo taller
      */
-    @PostMapping
+    @PostMapping("/register")
     fun registrarTaller(@RequestBody taller: Taller): ResponseEntity<Taller> {
         val nuevoTaller = tallerService.registrarTaller(taller)
         return ResponseEntity.status(201).body(nuevoTaller)
@@ -25,7 +25,7 @@ class TallerController {
     /**
      * Endpoint para obtener todos los talleres
      */
-    @GetMapping
+    @GetMapping("/all")
     fun obtenerTodosLosTalleres(): ResponseEntity<List<Taller>> {
         val talleres = tallerService.obtenerTodosLosTalleres()
         return ResponseEntity.ok(talleres)
@@ -43,7 +43,7 @@ class TallerController {
     /**
      * Endpoint para actualizar un taller por ID
      */
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     fun actualizarTaller(
         @PathVariable id: Long,
         @RequestBody tallerActualizado: Taller
@@ -55,7 +55,7 @@ class TallerController {
     /**
      * Endpoint para eliminar un taller por ID
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     fun eliminarTaller(@PathVariable id: Long): ResponseEntity<Void> {
         tallerService.eliminarTaller(id)
         return ResponseEntity.noContent().build()

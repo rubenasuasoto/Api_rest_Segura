@@ -1,7 +1,6 @@
 ﻿package com.example.Api_rest_Segura.security
 
 import org.springframework.boot.context.properties.ConfigurationProperties
-import java.security.PrivateKey
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 

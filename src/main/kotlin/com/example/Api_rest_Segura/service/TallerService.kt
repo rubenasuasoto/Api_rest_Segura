@@ -1,7 +1,11 @@
 ﻿package com.example.Api_rest_Segura.service
 
+import com.example.Api_rest_Segura.error.APIExceptionHandler
+import com.example.Api_rest_Segura.error.exception.NotFoundException
 import com.example.Api_rest_Segura.model.Taller
 import com.example.Api_rest_Segura.repository.TallerRepository
+import com.example.Api_rest_Segura.security.SecurityConfig
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -10,6 +14,8 @@ class TallerService {
 
     @Autowired
     private lateinit var tallerRepository: TallerRepository
+
+
 
     /**
      * Registrar un nuevo taller.
@@ -30,7 +36,7 @@ class TallerService {
      */
     fun obtenerTallerPorId(id: Long): Taller {
         return tallerRepository.findById(id)
-            .orElseThrow { NoSuchElementException("Taller no encontrado con ID $id") }
+            .orElseThrow { NotFoundException("Taller no encontrado con ID $id") }
     }
 
     /**
@@ -54,7 +60,7 @@ class TallerService {
      */
     fun eliminarTaller(id: Long) {
         if (!tallerRepository.existsById(id)) {
-            throw NoSuchElementException("Taller no encontrado con ID $id")
+            throw NotFoundException("Taller no encontrado con ID $id")
         }
         tallerRepository.deleteById(id)
     }

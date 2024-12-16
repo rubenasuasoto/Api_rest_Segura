@@ -3,6 +3,7 @@
 
 import com.example.Api_rest_Segura.error.APIExceptionHandler
 import com.example.Api_rest_Segura.error.exception.ConflictException
+import com.example.Api_rest_Segura.error.exception.NotFoundException
 import com.example.Api_rest_Segura.model.Usuario
 import com.example.Api_rest_Segura.repository.UsuarioRepository
 import com.example.Api_rest_Segura.security.SecurityConfig
@@ -24,9 +25,7 @@ class UsuarioService : UserDetailsService {
     @Autowired
     private lateinit var securityConfig: SecurityConfig
 
-    /*
-    TODO
-     */
+
     override fun loadUserByUsername(username: String?): UserDetails {
         val usuario: Usuario = usuarioRepository
             .findByUsername(username!!)
@@ -69,7 +68,7 @@ class UsuarioService : UserDetailsService {
      */
     fun getUsuarioById(id: Long): Usuario {
         return usuarioRepository.findById(id)
-            .orElseThrow { NoSuchElementException("Usuario no encontrado con ID $id") }
+            .orElseThrow { NotFoundException("Usuario no encontrado con ID $id") }
     }
 
     /**
@@ -77,7 +76,7 @@ class UsuarioService : UserDetailsService {
      */
     fun updateUsuario(id: Long, usuarioActualizado: Usuario): Usuario {
         val usuario = usuarioRepository.findById(id)
-            .orElseThrow { NoSuchElementException("Usuario no encontrado con ID $id") }
+            .orElseThrow { NotFoundException("Usuario no encontrado con ID $id") }
 
         // Actualizar campos
         usuario.username = usuarioActualizado.username
@@ -93,7 +92,7 @@ class UsuarioService : UserDetailsService {
      */
     fun deleteUsuario(id: Long) {
         if (!usuarioRepository.existsById(id)) {
-            throw NoSuchElementException("Usuario no encontrado con ID $id")
+            throw NotFoundException("Usuario no encontrado con ID $id")
         }
         usuarioRepository.deleteById(id)
     }
