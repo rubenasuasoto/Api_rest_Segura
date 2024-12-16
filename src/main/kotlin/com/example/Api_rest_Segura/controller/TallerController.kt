@@ -23,15 +23,6 @@ class TallerController {
     }
 
     /**
-     * Endpoint para obtener todos los talleres
-     */
-    @GetMapping("/all")
-    fun obtenerTodosLosTalleres(): ResponseEntity<List<Taller>> {
-        val talleres = tallerService.obtenerTodosLosTalleres()
-        return ResponseEntity.ok(talleres)
-    }
-
-    /**
      * Endpoint para obtener un taller por ID
      */
     @GetMapping("/{id}")

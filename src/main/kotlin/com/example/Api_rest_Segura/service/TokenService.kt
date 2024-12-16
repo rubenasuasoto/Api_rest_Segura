@@ -19,16 +19,14 @@ class TokenService {
 
     fun generarToken(authentication: Authentication) : String {
 
-        val roles: String = authentication.authorities
-            .map { it.authority }
-            .joinToString(" ") // Contiene los roles del usuario
+        val roles: String = authentication.authorities.joinToString(" ") { it.authority } // Contiene los roles del usuario
 
         val payload: JwtClaimsSet = JwtClaimsSet.builder()
             .issuer("self")
             .issuedAt(Instant.now())
             .expiresAt(Date().toInstant().plus(Duration.ofHours(1)))
             .subject(authentication.name)
-            .claim("rol", roles)
+            .claim("roles", roles)
             .build()
 
         return jwtEncoder.encode(JwtEncoderParameters.from(payload)).tokenValue;

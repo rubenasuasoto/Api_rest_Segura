@@ -7,9 +7,7 @@ import com.example.Api_rest_Segura.error.exception.NotFoundException
 import com.example.Api_rest_Segura.model.Usuario
 import com.example.Api_rest_Segura.repository.UsuarioRepository
 import com.example.Api_rest_Segura.security.SecurityConfig
-import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService

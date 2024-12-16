@@ -13,7 +13,7 @@ class CipherUtils {
      * Método para cifrar una cadena usando un cifrado por clave simétrica
      * La key proporcionada por parámetros debe ser la misma que se vaya a usar a la hora de descifrar
      */
-    fun encrypt(cadenaACifrar: String, key: String): String {
+    fun encrypt(cadenaACifrar: String?, key: String): String {
         // CON LA KEY PROPORCIONADA SE GENERA UNA CLAVE PÚBLICA
         val keyBytes = key.toByteArray(Charsets.UTF_8).copyOf(16) // AES necesita claves de 16, 24 o 32 bytes
         val secretKey = SecretKeySpec(keyBytes, "AES")
@@ -22,7 +22,7 @@ class CipherUtils {
         val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding") // Modo CBC con relleno PKCS5
         val iv = IvParameterSpec(ByteArray(16)) // Vector de inicialización fijo (NO recomendado para datos críticos)
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv)
-        val cipherText = cipher.doFinal(cadenaACifrar.toByteArray(Charsets.UTF_8))
+        val cipherText = cipher.doFinal(cadenaACifrar?.toByteArray(Charsets.UTF_8))
         return Base64.getEncoder().encodeToString(cipherText)
     }
 

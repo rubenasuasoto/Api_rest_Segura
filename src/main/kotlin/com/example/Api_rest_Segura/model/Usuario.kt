@@ -10,10 +10,10 @@ data class Usuario(
     var idUsuario: Long? = null,
 
     @Column(nullable = false, unique = true)
-    var username: String,
+    var username: String? = null,
 
     @Column(nullable = false)
-    var password: String,
+    var password: String? = null,
 
 
     var roles: String? = null // e.g., "ROLE_CLIENTE,ROLE_MECANICO

@@ -60,29 +60,23 @@ class UsuarioController {
     Metodo (EndPoint) para hacer un login
      */
     @PostMapping("/login")
-    fun login(@RequestBody usuario: Usuario): ResponseEntity<Any>?{
+    fun login(@RequestBody usuario: Usuario) : ResponseEntity<Any>? {
 
-        var authentication: Authentication
+        val authentication: Authentication
         try {
-
             authentication = authenticationManager.authenticate(UsernamePasswordAuthenticationToken(usuario.username, usuario.password))
-        } catch (e:AuthenticationException){
+        } catch (e: AuthenticationException) {
             return ResponseEntity(mapOf("mensaje" to "Credenciales incorrectas dude"), HttpStatus.UNAUTHORIZED)
         }
 
 
+        // SI PASAMOS LA AUTENTICACIÓN, SIGNIFICA QUE ESTAMOS BIEN AUTENTICADOS
+        // PASAMOS A GENERAR EL TOKEN
         var token = ""
         token = tokenService.generarToken(authentication)
 
+
         return ResponseEntity(mapOf("token" to token), HttpStatus.CREATED)
-    }
-    /**
-     * Endpoint para obtener todos los usuarios
-     */
-    @GetMapping("/all")
-    fun getAllUsuarios(): ResponseEntity<List<Usuario>> {
-        val usuarios = usuarioService.getAllUsuarios()
-        return ResponseEntity.ok(usuarios)
     }
 
     /**

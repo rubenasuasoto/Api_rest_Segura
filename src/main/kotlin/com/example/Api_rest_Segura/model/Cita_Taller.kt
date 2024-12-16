@@ -4,7 +4,7 @@ import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "citas_Taller")
+@Table(name = "citas_taller")
 data class Cita_Taller(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +27,3 @@ data class Cita_Taller(
     @Column(nullable = false)
     var estado: String? = null
 )
-
