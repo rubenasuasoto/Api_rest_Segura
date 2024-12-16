@@ -10,13 +10,13 @@ data class Taller(
     val idTaller: Long? = null,
 
     @Column(nullable = false)
-    val nombreTaller: String? = null,
+    var nombreTaller: String? = null,
 
     @Column(nullable = false)
-    val direccion: String? = null,
+    var direccion: String? = null,
 
     @Column(nullable = false, length = 9)
-    val telefono: String? = null,
+    var telefono: String? = null,
 
 
 )
