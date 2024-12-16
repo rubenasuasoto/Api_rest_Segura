@@ -10,13 +10,13 @@ data class Cita_Taller(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val idCita: Long? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_usuario", nullable = false)
-    val usuario: Usuario,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario", nullable = false)
+    val usuario:  Long? = null,
+
+
     @JoinColumn(name = "id_taller", nullable = false)
-    val taller: Taller,
+    val taller:  Long? = null,
 
     @Column(nullable = false)
     var fecha: LocalDateTime,
