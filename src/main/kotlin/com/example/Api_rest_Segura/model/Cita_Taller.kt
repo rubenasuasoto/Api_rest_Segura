@@ -19,16 +19,12 @@ data class Cita_Taller(
     val taller: Taller,
 
     @Column(nullable = false)
-    val fecha: LocalDateTime,
+    var fecha: LocalDateTime,
 
     @Column(nullable = false)
-    val servicio: String? = null,
+    var servicio: String? = null,
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    val estado: EstadoCita
+    var estado: String? = null
 )
 
-enum class EstadoCita {
-    PENDIENTE, CONFIRMADA, CANCELADA, COMPLETADA
-}
