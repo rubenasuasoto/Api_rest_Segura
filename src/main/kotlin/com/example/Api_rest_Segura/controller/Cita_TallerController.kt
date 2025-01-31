@@ -22,6 +22,14 @@ class CitaTallerController {
         return ResponseEntity.status(201).body(nuevaCita)
     }
 
+    /**
+     * Endpoint para obtener todas las citas
+     */
+    @GetMapping("/T")
+    fun obtenerCitas(): ResponseEntity<List<Cita_Taller>> {
+        val cita = citaTallerService.obtenerTodasLasCitas()
+        return ResponseEntity.ok(cita)
+    }
 
     /**
      * Endpoint para obtener una cita por ID

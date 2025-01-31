@@ -1,5 +1,6 @@
 ﻿package com.example.Api_rest_Segura.service
 
+import com.example.Api_rest_Segura.error.APIExceptionHandler
 import com.example.Api_rest_Segura.error.exception.NotFoundException
 import com.example.Api_rest_Segura.model.Cita_Taller
 import com.example.Api_rest_Segura.repository.Citas_TallerRepository
@@ -31,7 +32,8 @@ class CitaTallerService {
      */
     fun obtenerCitaPorId(id: Long): Cita_Taller {
         return citaTallerRepository.findById(id)
-            .orElseThrow { NotFoundException("Cita no encontrada con ID $id") }
+            .orElseThrow { NotFoundException("Cita no encontrada con ID $id")
+            }
     }
 
     /**
