@@ -52,7 +52,10 @@ class UsuarioService : UserDetailsService {
      * Obtener todos los usuarios.
      */
     fun getAllUsuarios(): List<Usuario> {
-        return usuarioRepository.findAll()
+        val usuarios: List<Usuario> = usuarioRepository.findAll()
+
+        // Devolvemos el Usuario
+        return usuarios
     }
 
     /**

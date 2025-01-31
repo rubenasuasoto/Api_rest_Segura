@@ -25,7 +25,7 @@ class CitaTallerController {
     /**
      * Endpoint para obtener todas las citas
      */
-    @GetMapping("/T")
+    @GetMapping
     fun obtenerCitas(): ResponseEntity<List<Cita_Taller>> {
         val cita = citaTallerService.obtenerTodasLasCitas()
         return ResponseEntity.ok(cita)
@@ -43,7 +43,7 @@ class CitaTallerController {
     /**
      * Endpoint para actualizar una cita por ID
      */
-    @PutMapping("/update/{id}")
+    @PutMapping("{id}")
     fun actualizarCita(
         @PathVariable id: Long,
         @RequestBody citaActualizada: Cita_Taller
@@ -55,7 +55,7 @@ class CitaTallerController {
     /**
      * Endpoint para eliminar una cita por ID
      */
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     fun eliminarCita(@PathVariable id: Long): ResponseEntity<Void> {
         citaTallerService.eliminarCita(id)
         return ResponseEntity.noContent().build()

@@ -2,6 +2,7 @@
 
 
 
+import com.example.Api_rest_Segura.error.exception.BadRequestException
 import com.example.Api_rest_Segura.model.Usuario
 import com.example.Api_rest_Segura.security.SecurityConfig
 import com.example.Api_rest_Segura.service.TokenService
@@ -40,6 +41,10 @@ class UsuarioController {
     ) : ResponseEntity<Usuario?>? {
 
         try {
+            // Comprobación mínima
+            if (newUsuario.username.isNullOrBlank() && newUsuario.password.isNullOrBlank()) {
+                throw BadRequestException("El username y la contraseña son obligatorios")
+            }
             // Generar un token JWT que se utilizará como clave de cifrado
             val token = securityConfig.jwtEncoder()
 
@@ -87,12 +92,17 @@ class UsuarioController {
     @GetMapping("/{id}")
     fun getUsuarioById(@PathVariable id: Long): ResponseEntity<Usuario> {
         val usuario = usuarioService.getUsuarioById(id)
+        if (usuario != null) {
+            if (usuario.roles != "Admin") {
+                throw IllegalArgumentException("No puedes acceder a otro usuario")
+            }
+        }
         return ResponseEntity.ok(usuario)
     }
     /**
      * Endpoint para obtener todos los usuarios
      */
-    @GetMapping("/T")
+    @GetMapping
     fun getUsuarios(): ResponseEntity<List<Usuario>> {
         val usuario = usuarioService.getAllUsuarios()
         return ResponseEntity.ok(usuario)
@@ -101,7 +111,7 @@ class UsuarioController {
     /**
      * Endpoint para actualizar un usuario por ID
      */
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     fun updateUsuario(
         @PathVariable id: Long,
         @RequestBody usuarioActualizado: Usuario
@@ -113,7 +123,7 @@ class UsuarioController {
     /**
      * Endpoint para eliminar un usuario por ID
      */
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     fun deleteUsuario(@PathVariable id: Long): ResponseEntity<Void> {
         usuarioService.deleteUsuario(id)
         return ResponseEntity.noContent().build()
