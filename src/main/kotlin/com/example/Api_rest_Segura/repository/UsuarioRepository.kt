@@ -7,7 +7,6 @@ import java.util.*
 
 @Repository
 interface UsuarioRepository : JpaRepository<Usuario, Long> {
-
     // Implementar una derived query para obtener a un usuario por su nombre
     fun findByUsername(username: String?): Optional<Usuario>
 }

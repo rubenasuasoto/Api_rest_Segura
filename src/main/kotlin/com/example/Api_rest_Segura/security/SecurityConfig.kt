@@ -38,17 +38,20 @@ class SecurityConfig {
             .authorizeHttpRequests{auth ->auth
                 .requestMatchers("/usuarios/login").permitAll()
                 .requestMatchers("/usuarios/register").permitAll()
-                .requestMatchers(HttpMethod.GET,"/usuarios/{id}").authenticated()
+                .requestMatchers(HttpMethod.GET,"/usuarios/{id}").hasRole("Admin")
+                .requestMatchers(HttpMethod.GET,"/usuarios/T").hasRole("Admin")
                 .requestMatchers(HttpMethod.PUT,"/usuarios/update/{id}").authenticated()
                 .requestMatchers(HttpMethod.DELETE,"/usuarios/delete/{id}").authenticated()
-                .requestMatchers("/citas/register").authenticated()
-                .requestMatchers(HttpMethod.GET,"/citas/{id}").authenticated()
-                .requestMatchers(HttpMethod.PUT,"/citas/update/{id}").authenticated()
-                .requestMatchers(HttpMethod.DELETE,"/citas/delete/{id}").authenticated()
-                .requestMatchers("/talleres/register").authenticated()
-                .requestMatchers(HttpMethod.GET,"/talleres/{id}").authenticated()
+                .requestMatchers("/citas/register").permitAll()
+                .requestMatchers(HttpMethod.GET,"/citas/{id}").permitAll()
+                .requestMatchers(HttpMethod.GET,"/citas/T").authenticated()
+                .requestMatchers(HttpMethod.PUT,"/citas/update/{id}").permitAll()
+                .requestMatchers(HttpMethod.DELETE,"/citas/delete/{id}").permitAll()
+                .requestMatchers("/talleres/register").hasRole("Mecanico")
+                .requestMatchers(HttpMethod.GET,"/talleres/T").authenticated()
+                .requestMatchers(HttpMethod.GET,"/talleres/{nombreTaller}").authenticated()
                 .requestMatchers(HttpMethod.PUT,"/talleres/update/{id}").authenticated()
-                .requestMatchers(HttpMethod.DELETE,"/talleres/delete/{id}").authenticated()
+                .requestMatchers(HttpMethod.DELETE,"/talleres/delete/{id}").hasRole("Mecanico")
                 .anyRequest().authenticated()}
             //Los recursos protegidos y publicos
             .oauth2ResourceServer { oauth2 -> oauth2.jwt(Customizer.withDefaults()) }

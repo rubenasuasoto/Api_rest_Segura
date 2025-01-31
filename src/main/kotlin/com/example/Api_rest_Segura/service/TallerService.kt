@@ -1,6 +1,7 @@
 ﻿package com.example.Api_rest_Segura.service
 
 import com.example.Api_rest_Segura.error.APIExceptionHandler
+import com.example.Api_rest_Segura.error.exception.ConflictException
 import com.example.Api_rest_Segura.error.exception.NotFoundException
 import com.example.Api_rest_Segura.model.Taller
 import com.example.Api_rest_Segura.repository.TallerRepository
@@ -17,10 +18,15 @@ class TallerService {
 
 
 
+
     /**
      * Registrar un nuevo taller.
      */
     fun registrarTaller(taller: Taller): Taller {
+        if (tallerRepository.findByNombreTaller(taller.nombreTaller).isPresent) {
+            throw  ConflictException("El taller ya existe")
+        }
+
         return tallerRepository.save(taller)
     }
 
@@ -37,6 +43,13 @@ class TallerService {
     fun obtenerTallerPorId(id: Long): Taller {
         return tallerRepository.findById(id)
             .orElseThrow { NotFoundException("Taller no encontrado con ID $id") }
+    }
+    /**
+     * Obtener un taller por Nombre.
+     */
+    fun obtenerTallerPorNombre(nombreTalller: String): Taller {
+        return tallerRepository.findByNombreTaller(nombreTalller)
+            .orElseThrow { NotFoundException("Taller no encontrado con nombre $nombreTalller") }
     }
 
     /**

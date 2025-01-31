@@ -21,13 +21,21 @@ class TallerController {
         val nuevoTaller = tallerService.registrarTaller(taller)
         return ResponseEntity.status(201).body(nuevoTaller)
     }
+    /**
+     * Endpoint para obtener todos los talleres
+     */
+    @GetMapping("/T")
+    fun obtenerTalleres(): ResponseEntity<List<Taller>> {
+        val taller = tallerService.obtenerTodosLosTalleres()
+        return ResponseEntity.ok(taller)
+    }
 
     /**
-     * Endpoint para obtener un taller por ID
+     * Endpoint para obtener un taller por Nombre
      */
-    @GetMapping("/{id}")
-    fun obtenerTallerPorId(@PathVariable id: Long): ResponseEntity<Taller> {
-        val taller = tallerService.obtenerTallerPorId(id)
+    @GetMapping("/{nombreTaller}")
+    fun obtenerTallerPorNombre(@PathVariable nombreTaller: String): ResponseEntity<Taller> {
+        val taller = tallerService.obtenerTallerPorNombre(nombreTaller)
         return ResponseEntity.ok(taller)
     }
 
