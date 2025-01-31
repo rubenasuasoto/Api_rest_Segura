@@ -16,6 +16,6 @@ data class Usuario(
     var password: String? = null,
 
 
-    var roles: String? = null // e.g., "ROLE_CLIENTE,ROLE_MECANICO
+    var roles: String? = null // e.g., "ROLE_CLIENTE,ROLE_MECANICO,ROLE_Admin
 )
 

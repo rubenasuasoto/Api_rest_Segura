@@ -18,8 +18,7 @@ class UsuarioService : UserDetailsService {
 
     @Autowired
     private lateinit var usuarioRepository: UsuarioRepository
-    @Autowired
-    private lateinit var handler: APIExceptionHandler
+
     @Autowired
     private lateinit var securityConfig: SecurityConfig
 
@@ -36,20 +35,15 @@ class UsuarioService : UserDetailsService {
             .build()
     }
 
-    fun registerUsuario(usuario: Usuario?): Usuario? {
+    fun registerUsuario(usuario: Usuario): Usuario {
+
         // Verificar si el usuario ya existe
-        if (usuario != null) {
+
             if (usuarioRepository.findByUsername(usuario.username).isPresent) {
-                 throw ConflictException("El usuario ya existe")
+                 throw  ConflictException("El usuario ya existe")
             }
-        }
 
-
-
-        usuario?.password = securityConfig.passwordEncoder().encode(usuario?.password )
-
-
-        val nuevoUsuario = usuarioRepository.save(usuario!!)
+        val nuevoUsuario = usuarioRepository.save(usuario)
 
 
         return nuevoUsuario

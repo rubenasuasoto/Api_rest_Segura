@@ -53,6 +53,7 @@ class UsuarioController {
 
             return ResponseEntity(usuarioInsertado, HttpStatus.CREATED)
         } catch (e: Exception) {
+            println("Error en el registro de usuario: ${e.message}")
             return ResponseEntity(null, HttpStatus.BAD_REQUEST)
         }
     }
@@ -79,12 +80,21 @@ class UsuarioController {
         return ResponseEntity(mapOf("token" to token), HttpStatus.CREATED)
     }
 
+
     /**
      * Endpoint para obtener un usuario por ID
      */
     @GetMapping("/{id}")
     fun getUsuarioById(@PathVariable id: Long): ResponseEntity<Usuario> {
         val usuario = usuarioService.getUsuarioById(id)
+        return ResponseEntity.ok(usuario)
+    }
+    /**
+     * Endpoint para obtener todos los usuarios
+     */
+    @GetMapping("/T")
+    fun getUsuarios(): ResponseEntity<List<Usuario>> {
+        val usuario = usuarioService.getAllUsuarios()
         return ResponseEntity.ok(usuario)
     }
 
